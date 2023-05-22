@@ -1,1 +1,1 @@
-Mock Payement Scehma Connector for Payment Transfers
+Mock payment schema connector for payment transfers
