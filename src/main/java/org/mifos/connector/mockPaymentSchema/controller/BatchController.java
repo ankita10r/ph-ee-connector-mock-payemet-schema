@@ -1,7 +1,6 @@
 package org.mifos.connector.mockPaymentSchema.controller;
 
 import org.mifos.connector.mockPaymentSchema.schema.AuthorizationRequest;
-import org.mifos.connector.mockPaymentSchema.schema.AuthorizationResponse;
 import org.mifos.connector.mockPaymentSchema.service.BatchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,14 +15,17 @@ public class BatchController {
 
 
     @PostMapping("/batches/{batchId}")
-    public ResponseEntity<AuthorizationResponse> getAuthorization(@PathVariable String batchId,
-                                                                  @RequestHeader("X-Client-Correlation-ID") String clientCorrelationId,
-                                                                  @RequestBody AuthorizationRequest authorizationRequest,
-                                                                  @RequestParam(value = "command", required = false,
-                                                        defaultValue = "authorize") String command){
-
-        AuthorizationResponse authResponse = batchService.getAuthorization(batchId,
-                                                clientCorrelationId, authorizationRequest);
-        return new ResponseEntity<>(authResponse, HttpStatus.OK);
+    public ResponseEntity<Object> getAuthorization(@PathVariable String batchId,
+                                                   @RequestHeader("X-Client-Correlation-ID") String clientCorrelationId,
+                                                   @RequestBody AuthorizationRequest authorizationRequest,
+                                                   @RequestParam(value = "command", required = false,
+                                                        defaultValue = "authorize") String command,
+                                                   @RequestHeader(value="X-CallbackURL") String callbackURL){
+        try {
+            batchService.getAuthorization(batchId, clientCorrelationId, authorizationRequest, callbackURL);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 }
