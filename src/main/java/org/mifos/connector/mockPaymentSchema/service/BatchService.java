@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+
 @Service
 public class BatchService {
 
@@ -18,8 +20,16 @@ public class BatchService {
     public void getAuthorization(String batchId, String clientCorrelationId,
                                                   AuthorizationRequest authRequest, String callbackUrl){
         AuthorizationResponse response = new AuthorizationResponse();
-        response.setClientCorrelationId(clientCorrelationId);
-        response.setStatus("Y");
+
+        if (authRequest.getAmount().compareTo(BigDecimal.valueOf(200)) >= 0) {
+            response.setStatus("N");
+            response.setClientCorrelationId(clientCorrelationId);
+            response.setReason("Error getting authorization for the request");
+        }
+        else {
+            response.setClientCorrelationId(clientCorrelationId);
+            response.setStatus("Y");
+        }
 
         try {
             sendCallbackService.sendCallback(new ObjectMapper().writeValueAsString(response), callbackUrl);
