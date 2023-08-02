@@ -8,8 +8,6 @@ camel:
 
 dfspids: "DFSPIDS"
 
-
-
 zeebe:
   client:
     max-execution-threads: 1000
@@ -19,6 +17,9 @@ zeebe:
   #    evenly-allocated-max-jobs: "#{${zeebe.client.max-execution-threads} / ${zeebe.client.number-of-workers}}"
   broker:
     contactpoint: "127.0.0.1:26500"
+
+bulk-processor:
+  contactpoint: "http://localhost:9001"
 
 ams:
   local:
@@ -31,3 +32,11 @@ mockFailure:
 logging:
   level:
     root: INFO
+
+async:
+  core_pool_size: 10
+  max_pool_size: 10
+  queue_capacity: 100
+
+threshold:
+  amount: 20000
