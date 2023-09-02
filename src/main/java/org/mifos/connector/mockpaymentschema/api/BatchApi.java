@@ -1,5 +1,7 @@
 package org.mifos.connector.mockpaymentschema.api;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.mifos.connector.mockpaymentschema.schema.AuthorizationRequest;
 import org.mifos.connector.mockpaymentschema.service.BatchService;
 import org.slf4j.Logger;
@@ -7,12 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class BatchApi {
@@ -21,7 +18,9 @@ public class BatchApi {
     private BatchService batchService;
 
     protected Logger logger = LoggerFactory.getLogger(this.getClass());
-
+    @Tag(name = "GOV")
+    @Operation(
+            summary = "Get Batch Auth")
     @PostMapping("/batches/{batchId}")
     public ResponseEntity<Object> getAuthorization(@PathVariable String batchId,
             @RequestHeader("X-Client-Correlation-ID") String clientCorrelationId, @RequestBody AuthorizationRequest authorizationRequest,

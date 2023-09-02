@@ -71,6 +71,7 @@ dependencies {
     checkstyle 'com.github.sevntu-checkstyle:sevntu-checks:1.44.1'
     implementation 'com.diffplug.gradle.spotless:spotless:2.4.1'
     implementation 'com.diffplug.spotless:spotless-plugin-gradle:6.17.0'
+    implementation "org.springdoc:springdoc-openapi-ui:1.6.11"
     implementation 'io.rest-assured:rest-assured:4.4.0'
     testImplementation 'org.apache.camel:camel-test-spring-junit5:3.4.0'
     testImplementation 'io.cucumber:cucumber-junit:7.8.1'
@@ -225,4 +226,9 @@ task cucumberCli() {
             ]
         }
     }
+}
+openApi {
+    apiDocsUrl.set("http://mockpaymentschema.sandbox.fynarfin.io/v3/api-docs")
+    outputDir.set(file("src/main/java/docs"))
+    outputFileName.set("swagger.yaml")
 }
