@@ -30,6 +30,16 @@ ams:
 mockFailure:
   percentage: 50
 
+airtel:
+  msisdnSuccessful: "0001"
+  msisdnFailed: "0002"
+  transactionIdSuccessful: "0004"
+  transactionIdFailed: "0005"
+  failedResponseCode: "DP00800001005"
+  successResponseCode: "DP00800001001"
+  pendingResponsCode: "DP00800001006"
+  resultCode: "ESB000010"
+
 logging:
   level:
     root: INFO
